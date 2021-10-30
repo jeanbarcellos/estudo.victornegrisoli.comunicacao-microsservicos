@@ -63,9 +63,9 @@ docker-compose up --build
 
 Para ignorar os logs, adicione a flag `-d`.
 
-### **Aula 020**
-
 <br>
+
+### **Aula 020**
 
 No microsserviço `auth-api`
 
@@ -125,8 +125,6 @@ docker run --name sales-api -e PORT=8082 -p 8082:8082 sales-api
 
 ### **Aula 021**
 
-<br>
-
 No microsserviço `product-api`
 
 Criar o arquivo `Dockerfile` com o seguinte conteúdo:
@@ -152,3 +150,18 @@ Levantar um container com a imagem recém criada, usando o comando:
 ```
 docker run --name product-api -p 8081:8081 product-api
 ```
+
+<br>
+
+### **Aula 021**
+
+```
+docker-compose up --build
+```
+
+Testando as apis:
+
+- http://localhost:8080/api/status
+- http://localhost:8081/api/status
+- http://localhost:8082/api/status
+- http://localhost:15672/
