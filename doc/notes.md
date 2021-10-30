@@ -52,3 +52,13 @@ Container RabbitMQ -> https://hub.docker.com/_/rabbitmq
 ```
 docker run --name sales_rabbit -p 5672:5672 -p 25676:25676 -p 15672:15672 rabbitmq:3-management
 ```
+
+### **Aula 016**
+
+Execução docker-compose
+
+```
+docker-compose up --build
+```
+
+Para ignorar os logs, adicione a flag `-d`.
