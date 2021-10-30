@@ -82,7 +82,8 @@ Ao fim deste curso você será capaz de criar suas próprias APIs e integrá-las
 
 ## Visão geral do sistema
 
-...
+![Visão geral](https://raw.githubusercontent.com/jeanbarcellos/estudo.victornegrisoli.comunicacao-microsservicos/master/doc/images/001.png?token=ADSTN3GKW4NXVEIZM57G4JTBQ2VJC)
+
 
 ## Anotações
 
