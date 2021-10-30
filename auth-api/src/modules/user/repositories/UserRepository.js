@@ -1,4 +1,4 @@
-import User from '../model/User'
+import User from '../models/User.js'
 
 class UserRepository {
   async findById(id) {
