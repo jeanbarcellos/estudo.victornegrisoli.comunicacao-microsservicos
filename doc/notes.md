@@ -44,3 +44,11 @@ Caso você possua dificuldades em acessar o Mongo Shell (Windows), faça o segui
 6. Caso tenha dúvidas, digite "C:\Program Files\MongoDB\Server" na barra de pesquisa e entre no diretório, lá você verá qual o diretório que seu MongoDB está instalado.
 7. Após setar a variável, apenas dê um "Ok" e saia.
 8. Abra o CMD e digite o comando "mongo" e você conseguirá executar, agora, basta apenas conectar-se no banco de dados criado em container, ou caso tenha rodado o servidor localmente.
+
+### **Aula 015**
+
+Container RabbitMQ -> https://hub.docker.com/_/rabbitmq
+
+```
+docker run --name sales_rabbit -p 5672:5672 -p 25676:25676 -p 15672:15672 rabbitmq:3-management
+```
