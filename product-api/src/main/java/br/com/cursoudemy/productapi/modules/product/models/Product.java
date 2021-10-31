@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import br.com.cursoudemy.productapi.modules.category.models.Category;
+import br.com.cursoudemy.productapi.modules.supplier.models.Supplier;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
