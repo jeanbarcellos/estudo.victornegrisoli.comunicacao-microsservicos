@@ -21,11 +21,6 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @PostMapping
-    public CategoryResponse save(@RequestBody CategoryRequest request) {
-        return categoryService.save(request);
-    }
-
     @GetMapping
     public List<CategoryResponse> findAll() {
         return categoryService.findAll();
@@ -39,5 +34,10 @@ public class CategoryController {
     @GetMapping("description/{description}")
     public List<CategoryResponse> findByDescription(@PathVariable String description) {
         return categoryService.findByDescription(description);
+    }
+
+    @PostMapping
+    public CategoryResponse save(@RequestBody CategoryRequest request) {
+        return categoryService.save(request);
     }
 }

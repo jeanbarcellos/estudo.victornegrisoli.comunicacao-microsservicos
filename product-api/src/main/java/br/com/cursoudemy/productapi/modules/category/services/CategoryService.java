@@ -20,14 +20,6 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public CategoryResponse findByIdResponse(Integer id) {
-        if (isEmpty(id)) {
-            throw new ValidationException("The category ID was not informed.");
-        }
-
-        return CategoryResponse.of(findById(id));
-    }
-
     public List<CategoryResponse> findAll() {
         return categoryRepository
             .findAll()
@@ -47,6 +39,14 @@ public class CategoryService {
                 .map(CategoryResponse::of)
                 // .map(category -> CategoryResponse.of(category))
                 .collect(Collectors.toList());
+    }
+
+    public CategoryResponse findByIdResponse(Integer id) {
+        if (isEmpty(id)) {
+            throw new ValidationException("The category ID was not informed.");
+        }
+
+        return CategoryResponse.of(findById(id));
     }
 
     public Category findById(Integer id) {
