@@ -1,4 +1,4 @@
-package br.com.cursoudemy.productapi.modules.product.model;
+package br.com.cursoudemy.productapi.modules.product.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
