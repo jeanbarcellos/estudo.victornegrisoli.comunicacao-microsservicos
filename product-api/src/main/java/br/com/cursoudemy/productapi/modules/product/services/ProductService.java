@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.cursoudemy.productapi.config.SuccessResponse;
 import br.com.cursoudemy.productapi.config.exception.ValidationException;
 import br.com.cursoudemy.productapi.modules.category.services.CategoryService;
 import br.com.cursoudemy.productapi.modules.product.dtos.ProductRequest;
@@ -80,12 +81,18 @@ public class ProductService {
     }
 
     public Product findById(Integer id) {
-        if (isEmpty(id)) {
-            throw new ValidationException("The product ID was not informed.");
-        }
+        validateInformedId(id);
 
         return productRepository.findById(id)
                 .orElseThrow(() -> new ValidationException("There's no product for the given ID."));
+    }
+
+    public Boolean existsByCategoryId(Integer categoryId) {
+        return productRepository.existsByCategoryId(categoryId);
+    }
+
+    public Boolean existsBySupplierId(Integer categoryId) {
+        return productRepository.existsByCategoryId(categoryId);
     }
 
     public ProductResponse save(ProductRequest request) {
@@ -101,6 +108,34 @@ public class ProductService {
         productRepository.save(product);
 
         return ProductResponse.of(product);
+    }
+
+    public ProductResponse update(ProductRequest request, Integer id) {
+        validateProductDataInformed(request);
+        validateInformedId(id);
+        validateCategoryAndSupplierIdInformed(request);
+
+        var category = categoryService.findById(request.getCategoryId());
+
+        var supplier = supplierService.findById(request.getSupplierId());
+
+        var product = Product.of(request, supplier, category);
+        product.setId(id);
+        productRepository.save(product);
+
+        return ProductResponse.of(product);
+    }
+
+    public SuccessResponse delete(Integer id) {
+        validateInformedId(id);
+
+        if (!productRepository.existsById(id)) {
+            throw new ValidationException("The product does not exists.");
+        }
+
+        productRepository.deleteById(id);
+
+        return SuccessResponse.create("The product was deleted.");
     }
 
     private void validateProductDataInformed(ProductRequest request) {
@@ -121,6 +156,12 @@ public class ProductService {
         }
         if (isEmpty(request.getSupplierId())) {
             throw new ValidationException("The supplier ID was not informed.");
+        }
+    }
+
+    private void validateInformedId(Integer id) {
+        if (isEmpty(id)) {
+            throw new ValidationException("The supplier ID must be informed.");
         }
     }
 }
