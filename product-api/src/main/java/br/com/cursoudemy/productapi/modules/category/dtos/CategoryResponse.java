@@ -1,8 +1,8 @@
-package br.com.cursoudemy.productapi.modules.product.dtos;
+package br.com.cursoudemy.productapi.modules.category.dtos;
 
 import org.springframework.beans.BeanUtils;
 
-import br.com.cursoudemy.productapi.modules.product.models.Category;
+import br.com.cursoudemy.productapi.modules.category.models.Category;
 import lombok.Data;
 
 @Data

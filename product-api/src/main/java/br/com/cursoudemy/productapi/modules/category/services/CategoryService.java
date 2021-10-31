@@ -1,15 +1,15 @@
-package br.com.cursoudemy.productapi.modules.product.services;
+package br.com.cursoudemy.productapi.modules.category.services;
+
+import static org.springframework.util.ObjectUtils.isEmpty;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.cursoudemy.productapi.config.exception.ValidationException;
-import br.com.cursoudemy.productapi.modules.product.dtos.CategoryRequest;
-import br.com.cursoudemy.productapi.modules.product.dtos.CategoryResponse;
-import br.com.cursoudemy.productapi.modules.product.models.Category;
-import br.com.cursoudemy.productapi.modules.product.repositories.CategoryRepository;
-
-import static org.springframework.util.ObjectUtils.isEmpty;
+import br.com.cursoudemy.productapi.modules.category.dtos.CategoryRequest;
+import br.com.cursoudemy.productapi.modules.category.dtos.CategoryResponse;
+import br.com.cursoudemy.productapi.modules.category.models.Category;
+import br.com.cursoudemy.productapi.modules.category.repositories.CategoryRepository;
 
 @Service
 public class CategoryService {

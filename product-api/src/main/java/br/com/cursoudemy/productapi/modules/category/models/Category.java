@@ -1,4 +1,4 @@
-package br.com.cursoudemy.productapi.modules.product.models;
+package br.com.cursoudemy.productapi.modules.category.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 import org.springframework.beans.BeanUtils;
 
-import br.com.cursoudemy.productapi.modules.product.dtos.CategoryRequest;
+import br.com.cursoudemy.productapi.modules.category.dtos.CategoryRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
