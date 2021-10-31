@@ -7,6 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.beans.BeanUtils;
+
+import br.com.cursoudemy.productapi.modules.supplier.dtos.SupplierRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,4 +28,11 @@ public class Supplier {
     @Column(name = "name", nullable = false)
     private String name;
 
+    public static Supplier of(SupplierRequest request) {
+        var supplier = new Supplier();
+
+        BeanUtils.copyProperties(request, supplier);
+
+        return supplier;
+    }
 }
