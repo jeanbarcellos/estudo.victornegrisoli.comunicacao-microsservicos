@@ -1,8 +1,8 @@
 import Sequelize from 'sequelize'
 
-const sequelize = new Sequelize('comm-ms_auth-db', 'postgres', 'postgres', {
+const sequelize = new Sequelize('auth-db', 'admin', '123456', {
   host: 'localhost',
-  port: 5433,
+  port: 5432,
   dialect: 'postgres',
   quoteIdentifiers: false,
   define: {
