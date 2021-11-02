@@ -50,9 +50,12 @@ public class Product {
     private LocalDateTime createdAt;
 
     @PrePersist
-    public void prePersist()
-    {
+    public void prePersist() {
         createdAt = LocalDateTime.now();
+    }
+
+    public void updateStock(Integer quantity) {
+        quantityAvailable = quantityAvailable - quantity;
     }
 
     public static Product of(ProductRequest request, Supplier supplier, Category category) {
