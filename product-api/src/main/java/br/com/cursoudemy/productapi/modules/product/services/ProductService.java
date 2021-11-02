@@ -193,6 +193,8 @@ public class ProductService {
 
     @Transactional
     private void updateStock(ProductStockDTO product) {
+        var productsForUpdate = new ArrayList<Product>();
+
         product
             .getProducts()
             .forEach(salesProduct -> {
@@ -200,11 +202,15 @@ public class ProductService {
                 validateQuantityInStock(salesProduct, existingProduct);
 
                 existingProduct.updateStock(salesProduct.getQuantity());
-                productRepository.save(existingProduct);
+                productsForUpdate.add(existingProduct);
+            });
 
-                var approvedMessage = new SalesConfirmationDTO(product.getSalesId(), SalesStatus.APPROVED);
-                salesConfirmationSender.sendSalesConfirmationMessage(approvedMessage);
-        });
+        if (!isEmpty(productsForUpdate)) {
+            productRepository.saveAll(productsForUpdate);
+
+            var approvedMessage = new SalesConfirmationDTO(product.getSalesId(), SalesStatus.APPROVED);
+            salesConfirmationSender.sendSalesConfirmationMessage(approvedMessage);
+        }
     }
 
     private void validateQuantityInStock(ProductQuantityDTO salesProduct,
