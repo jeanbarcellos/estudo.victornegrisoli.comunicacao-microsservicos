@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.cursoudemy.productapi.config.SuccessResponse;
 import br.com.cursoudemy.productapi.modules.product.dtos.ProductRequest;
 import br.com.cursoudemy.productapi.modules.product.dtos.ProductResponse;
+import br.com.cursoudemy.productapi.modules.product.dtos.ProductSalesResponse;
 import br.com.cursoudemy.productapi.modules.product.services.ProductService;
 
 @RestController
@@ -62,5 +63,10 @@ public class ProductController {
     @DeleteMapping("{id}")
     public SuccessResponse delete(@PathVariable Integer id) {
         return productService.delete(id);
+    }
+
+    @GetMapping("{id}/sales")
+    public ProductSalesResponse findProductSales(@PathVariable Integer id) {
+        return productService.findProductSales(id);
     }
 }

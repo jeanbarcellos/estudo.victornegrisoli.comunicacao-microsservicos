@@ -16,9 +16,11 @@ import br.com.cursoudemy.productapi.modules.category.services.CategoryService;
 import br.com.cursoudemy.productapi.modules.product.dtos.ProductQuantityDTO;
 import br.com.cursoudemy.productapi.modules.product.dtos.ProductRequest;
 import br.com.cursoudemy.productapi.modules.product.dtos.ProductResponse;
+import br.com.cursoudemy.productapi.modules.product.dtos.ProductSalesResponse;
 import br.com.cursoudemy.productapi.modules.product.dtos.ProductStockDTO;
 import br.com.cursoudemy.productapi.modules.product.models.Product;
 import br.com.cursoudemy.productapi.modules.product.repositories.ProductRepository;
+import br.com.cursoudemy.productapi.modules.sales.client.SalesClient;
 import br.com.cursoudemy.productapi.modules.sales.dtos.SalesConfirmationDTO;
 import br.com.cursoudemy.productapi.modules.sales.enums.SalesStatus;
 import br.com.cursoudemy.productapi.modules.sales.rabbitmq.SalesConfirmationSender;
@@ -42,6 +44,9 @@ public class ProductService {
 
     @Autowired
     private SalesConfirmationSender salesConfirmationSender;
+
+    @Autowired
+    private SalesClient salesClient;
 
     public List<ProductResponse> findAll() {
         return productRepository.findAll().stream().map(ProductResponse::of).collect(Collectors.toList());
@@ -195,15 +200,13 @@ public class ProductService {
     private void updateStock(ProductStockDTO product) {
         var productsForUpdate = new ArrayList<Product>();
 
-        product
-            .getProducts()
-            .forEach(salesProduct -> {
-                var existingProduct = findById(salesProduct.getProductId());
-                validateQuantityInStock(salesProduct, existingProduct);
+        product.getProducts().forEach(salesProduct -> {
+            var existingProduct = findById(salesProduct.getProductId());
+            validateQuantityInStock(salesProduct, existingProduct);
 
-                existingProduct.updateStock(salesProduct.getQuantity());
-                productsForUpdate.add(existingProduct);
-            });
+            existingProduct.updateStock(salesProduct.getQuantity());
+            productsForUpdate.add(existingProduct);
+        });
 
         if (!isEmpty(productsForUpdate)) {
             productRepository.saveAll(productsForUpdate);
@@ -213,11 +216,24 @@ public class ProductService {
         }
     }
 
-    private void validateQuantityInStock(ProductQuantityDTO salesProduct,
-                                         Product existingProduct) {
+    private void validateQuantityInStock(ProductQuantityDTO salesProduct, Product existingProduct) {
         if (salesProduct.getQuantity() > existingProduct.getQuantityAvailable()) {
-            throw new ValidationException(
-                String.format("The product %s is out of stock.", existingProduct.getId()));
+            throw new ValidationException(String.format("The product %s is out of stock.", existingProduct.getId()));
         }
+    }
+
+    public ProductSalesResponse findProductSales(Integer id) {
+        var product = findById(id);
+
+        try {
+            var sales = salesClient
+                .findSalesByProductId(product.getId())
+                .orElseThrow(() -> new ValidationException("The sales was not found by this product."));
+
+            return ProductSalesResponse.of(product, sales.getSalesIds());
+        } catch (Exception ex) {
+            throw new ValidationException("The sales could not be found.");
+        }
+
     }
 }
