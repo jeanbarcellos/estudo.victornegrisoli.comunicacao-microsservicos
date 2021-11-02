@@ -13,6 +13,7 @@ import br.com.cursoudemy.productapi.config.exception.ValidationException;
 import br.com.cursoudemy.productapi.modules.category.services.CategoryService;
 import br.com.cursoudemy.productapi.modules.product.dtos.ProductRequest;
 import br.com.cursoudemy.productapi.modules.product.dtos.ProductResponse;
+import br.com.cursoudemy.productapi.modules.product.dtos.ProductStockDTO;
 import br.com.cursoudemy.productapi.modules.product.models.Product;
 import br.com.cursoudemy.productapi.modules.product.repositories.ProductRepository;
 import br.com.cursoudemy.productapi.modules.supplier.services.SupplierService;
@@ -163,5 +164,9 @@ public class ProductService {
         if (isEmpty(id)) {
             throw new ValidationException("The supplier ID must be informed.");
         }
+    }
+
+    public void updateProductStock(ProductStockDTO product) {
+
     }
 }
