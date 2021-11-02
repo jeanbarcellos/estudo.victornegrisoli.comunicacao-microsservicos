@@ -9,6 +9,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import br.com.cursoudemy.productapi.config.exception.ValidationException;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+
 @Component
 public class FeignClientAuthInterceptor implements RequestInterceptor {
 

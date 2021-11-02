@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.cursoudemy.productapi.config.SuccessResponse;
+import br.com.cursoudemy.productapi.modules.product.dtos.ProductCheckStockRequest;
 import br.com.cursoudemy.productapi.modules.product.dtos.ProductRequest;
 import br.com.cursoudemy.productapi.modules.product.dtos.ProductResponse;
 import br.com.cursoudemy.productapi.modules.product.dtos.ProductSalesResponse;
@@ -63,6 +64,11 @@ public class ProductController {
     @DeleteMapping("{id}")
     public SuccessResponse delete(@PathVariable Integer id) {
         return productService.delete(id);
+    }
+
+    @PostMapping("check-stock")
+    public SuccessResponse checkProductsStock(@RequestBody ProductCheckStockRequest request) {
+        return productService.checkProductsStock(request);
     }
 
     @GetMapping("{id}/sales")

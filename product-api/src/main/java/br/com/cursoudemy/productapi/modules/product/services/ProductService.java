@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.cursoudemy.productapi.config.SuccessResponse;
 import br.com.cursoudemy.productapi.config.exception.ValidationException;
 import br.com.cursoudemy.productapi.modules.category.services.CategoryService;
+import br.com.cursoudemy.productapi.modules.product.dtos.ProductCheckStockRequest;
 import br.com.cursoudemy.productapi.modules.product.dtos.ProductQuantityDTO;
 import br.com.cursoudemy.productapi.modules.product.dtos.ProductRequest;
 import br.com.cursoudemy.productapi.modules.product.dtos.ProductResponse;
@@ -232,8 +233,30 @@ public class ProductService {
 
             return ProductSalesResponse.of(product, sales.getSalesIds());
         } catch (Exception ex) {
-            throw new ValidationException("The sales could not be found.");
+            throw new ValidationException("There was an error trying to get the product's sales.");
+        }
+    }
+
+    public SuccessResponse checkProductsStock(ProductCheckStockRequest request) {
+        if (isEmpty(request) || isEmpty(request.getProducts())) {
+            throw new ValidationException("The request data and products must be informed.");
         }
 
+        request
+            .getProducts()
+            .forEach(this::validateStock);
+
+        return SuccessResponse.create("The stock is ok!");
+    }
+
+    private void validateStock(ProductQuantityDTO productQuantity) {
+        if (isEmpty(productQuantity.getProductId()) || isEmpty(productQuantity.getQuantity())) {
+            throw new ValidationException("Product ID and quantity must be informed.");
+        }
+
+        var product = findById(productQuantity.getProductId());
+        if (productQuantity.getQuantity() > product.getQuantityAvailable()) {
+            throw new ValidationException(String.format("The product %s is out of stock.", product.getId()));
+        }
     }
 }
