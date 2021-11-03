@@ -87,4 +87,25 @@ Ao fim deste curso você será capaz de criar suas próprias APIs e integrá-las
 
 ## Anotações
 
-...
+Testes na aula 42 e 43
+
+
+```json
+{
+  "salesId": "6165b92addaf7fc9dd85dad0",
+  "products": [
+    {
+      "productId": 1001,
+      "quantity": 4
+    },
+    {
+      "productId": 1002,
+      "quantity": 2
+    },
+    {
+      "productId": 1003,
+      "quantity": 3
+    }
+  ]
+}
+```
