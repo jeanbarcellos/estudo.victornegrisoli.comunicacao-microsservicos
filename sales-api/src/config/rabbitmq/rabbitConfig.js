@@ -1,4 +1,5 @@
 import amqp from 'amqplib/callback_api.js'
+import { listenToSalesConfirmationQueue } from '../../modules/sales/rabbitmq/salesConfirmationListener.js'
 
 import {
   PRODUCT_TOPIC,
@@ -10,7 +11,7 @@ import {
 
 import { RABBIT_MQ_URL } from '../constants/secrets.js'
 
-const HALF_SECOND = 500
+const TWO_SECONDS = 2000
 const HALF_MINUTE = 30000
 const CONTAINER_ENV = 'container'
 
@@ -53,8 +54,12 @@ async function connectRabbitMqAndCreateQueues() {
 
     console.info('Queues and Topics were defined.')
 
-    setTimeout(() => connection.close(), HALF_SECOND)
+    setTimeout(() => connection.close(), TWO_SECONDS)
   })
+
+  setTimeout(() => {
+    listenToSalesConfirmationQueue()
+  }, TWO_SECONDS)
 }
 
 function createQueue(connection, queue, routingKey, topic) {
