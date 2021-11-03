@@ -2,7 +2,7 @@ import express from 'express'
 
 import { connect } from './src/config/db/mongoDbConfig.js'
 import { createInitialData } from './src/config/db/initialData.js'
-import { connectRabbitMq } from './src/config/rabitmq/rabbitConfig.js'
+import { connectRabbitMq } from './src/config/rabbitmq/rabbitConfig.js'
 
 import checkToken from './src/config/auth/checkToken.js'
 
