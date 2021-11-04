@@ -15,6 +15,7 @@ class ProductClient {
         )}`
       )
 
+      let response = false
       await axios
         .post(
           `${PRODUCT_API_URL}/check-stock`,
@@ -22,11 +23,12 @@ class ProductClient {
           { headers }
         )
         .then(res => {
-          return true
+          response = true
         })
         .catch(err => {
-          return false
+          response = false
         })
+      return response
     } catch (err) {
       return false
     }

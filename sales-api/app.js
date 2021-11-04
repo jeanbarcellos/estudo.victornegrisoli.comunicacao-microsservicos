@@ -5,6 +5,7 @@ import { createInitialData } from './src/config/db/initialData.js'
 import { connectRabbitMq } from './src/config/rabbitmq/rabbitConfig.js'
 
 import checkToken from './src/config/auth/checkToken.js'
+import orderRoutes from './src/modules/sales/routes/OrderRoutes.js'
 
 import { sendMessageToProductStockUpdateQueue } from './src/modules/product/rabbitmq/productStockUpdateSender.js'
 
@@ -16,7 +17,9 @@ connect()
 createInitialData()
 connectRabbitMq()
 
-// app.use(checkToken)
+app.use(express.json())
+app.use(checkToken)
+app.use(orderRoutes)
 
 app.get('/test', async (req, res) => {
   try {
