@@ -27,6 +27,26 @@ class OrderRepository {
       return null
     }
   }
+
+  async findAll() {
+    try {
+      return await Order.find()
+    } catch (error) {
+      console.error(error.message)
+      return null
+    }
+  }
+
+  async findByProductId(productId) {
+    try {
+      return await Order.find({
+        'products.productId': Number(productId)
+      })
+    } catch (error) {
+      console.error(error.message)
+      return null
+    }
+  }
 }
 
 export default new OrderRepository()

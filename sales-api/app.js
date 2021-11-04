@@ -14,7 +14,7 @@ const env = process.env
 const PORT = env.PORT || 8082
 
 connect()
-createInitialData()
+// createInitialData()
 connectRabbitMq()
 
 app.use(express.json())
