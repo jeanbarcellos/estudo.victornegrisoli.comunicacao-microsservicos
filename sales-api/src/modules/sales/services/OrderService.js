@@ -7,6 +7,7 @@ import {
   SUCCESS,
   INTERNAL_SERVER_ERROR
 } from '../../../config/constants/httpStatus.js'
+import ProductClient from '../../product/client/ProductClient.js'
 
 class OrderService {
   async createOrder(req) {
@@ -14,16 +15,11 @@ class OrderService {
       let { orderData } = req.body
       this.validateOrderData(orderData)
       const { authUser } = req
-      let order = {
-        status: PENDING,
-        user: authUser,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        products: orderData
-      }
-      await this.validateProductStock(order)
+      const { authorization } = req.headers
+      let order = this.createInitialOrderData(orderData, authUser)
+      await this.validateProductStock(order, authorization)
       let createdOrder = await OrderRepository.save(order)
-      sendMessageToProductStockUpdateQueue(createdOrder.products)
+      this.sendMessage(createdOrder)
       return {
         status: SUCCESS,
         createdOrder
@@ -33,6 +29,16 @@ class OrderService {
         status: err.status ? err.status : INTERNAL_SERVER_ERROR,
         message: err.message
       }
+    }
+  }
+
+  createInitialOrderData(orderData, authUser) {
+    return {
+      status: PENDING,
+      user: authUser,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      products: orderData.products
     }
   }
 
@@ -61,14 +67,23 @@ class OrderService {
     }
   }
 
-  async validateProductStock(order) {
-    let stockIsOut = true
+  async validateProductStock(order, token) {
+    let stockIsOut = await ProductClient.checkProducStock(order, token)
     if (stockIsOut) {
       throw new OrderException(
         BAD_REQUEST,
         'The stock is out for the products.'
       )
     }
+  }
+
+  sendMessage(createdOrder) {
+    const message = {
+      salesId: createdOrder.id,
+      products: createdOrder.products
+    }
+
+    sendMessageToProductStockUpdateQueue(message)
   }
 }
 
