@@ -18,6 +18,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "start": "node app.js",
     "nodemon": "^2.0.14"
   }
 }
