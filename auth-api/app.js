@@ -2,12 +2,15 @@ import express from 'express'
 
 import * as db from './src/config/db/initialData.js'
 import userRoutes from './src/modules/user/routes/UserRoutes.js'
+import tracing from './src/config/tracing.js'
 
 const app = express()
 const env = process.env
 const PORT = env.PORT || 8080
 
 db.createInitialData()
+
+app.use(tracing)
 
 app.use(express.json())
 
@@ -20,7 +23,6 @@ app.get('/api/status', (req, res) => {
 })
 
 app.use(userRoutes)
-
 
 app.listen(PORT, () => {
   console.log(`Server started successfully at port ${PORT}`)

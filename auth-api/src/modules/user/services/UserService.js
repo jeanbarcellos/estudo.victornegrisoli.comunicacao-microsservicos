@@ -58,6 +58,14 @@ class UserService {
 
   async getAccessToken(req) {
     try {
+      const { transactionid, serviceid } = req.headers
+
+      console.info(
+        `Request to POST login with data ${JSON.stringify(
+          req.body
+        )} | [transactionID: ${transactionid} | serviceID: ${serviceid}]`
+      )
+
       const { email, password } = req.body
 
       this.validateAccessTokenData(email, password)
