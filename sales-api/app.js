@@ -6,6 +6,7 @@ import { connectRabbitMq } from './src/config/rabbitmq/rabbitConfig.js'
 
 import checkToken from './src/config/auth/checkToken.js'
 import orderRoutes from './src/modules/sales/routes/OrderRoutes.js'
+import tracing from './src/config/tracing.js'
 
 import { sendMessageToProductStockUpdateQueue } from './src/modules/product/rabbitmq/productStockUpdateSender.js'
 
@@ -14,10 +15,11 @@ const env = process.env
 const PORT = env.PORT || 8082
 
 connect()
-// createInitialData()
+createInitialData()
 connectRabbitMq()
 
 app.use(express.json())
+app.use(tracing)
 app.use(checkToken)
 app.use(orderRoutes)
 
