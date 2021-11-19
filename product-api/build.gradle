@@ -39,7 +39,7 @@ dependencies {
 }
 
 jar {
-	enable = false
+	enabled = false
 }
 
 dependencyManagement {
